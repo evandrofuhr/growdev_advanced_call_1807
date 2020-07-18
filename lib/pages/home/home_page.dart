@@ -10,10 +10,12 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final _key = GlobalKey<ScaffoldState>();
   final _loginService = LoginService();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _key,
       drawer: Drawer(
         child: ListView(
           padding: EdgeInsets.zero,
@@ -42,6 +44,13 @@ class _HomePageState extends State<HomePage> {
                 Navigator.of(context).pushNamed(ItemsPage.routeName);
               },
             ),
+            ListTile(
+              leading: Icon(Icons.accessibility),
+              title: Text('Ação'),
+              onTap: () {
+                Navigator.of(context).pop();
+              },
+            ),
             Divider(),
             ListTile(
               leading: Icon(Icons.exit_to_app),
@@ -57,6 +66,14 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: Text('Home'),
         centerTitle: true,
+      ),
+      body: Center(
+        child: RaisedButton.icon(
+            onPressed: () {
+              _key.currentState.openDrawer();
+            },
+            icon: Icon(Icons.add_circle_outline),
+            label: Text('Abrir drawer!')),
       ),
     );
   }
