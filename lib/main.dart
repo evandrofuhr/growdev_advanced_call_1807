@@ -1,6 +1,7 @@
 import 'package:call_1807/data/mock_data.dart';
 import 'package:call_1807/pages/detail/detail_page.dart';
 import 'package:call_1807/pages/home/home_page.dart';
+import 'package:call_1807/pages/items/items_page.dart';
 import 'package:call_1807/pages/login/login_page.dart';
 import 'package:flutter/material.dart';
 
@@ -10,7 +11,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      themeMode: ThemeMode.dark,
+      themeMode: ThemeMode.light,
       darkTheme: ThemeData.dark(),
       theme: ThemeData.light(),
       initialRoute: HomePage.routeName,
@@ -26,6 +27,12 @@ class MyApp extends StatelessWidget {
             return LoginPage();
           }
           return DetailPage();
+        },
+        ItemsPage.routeName: (context) {
+          if (MockData.logedUser == null) {
+            return LoginPage();
+          }
+          return ItemsPage();
         },
       },
     );
