@@ -1,4 +1,5 @@
 import 'package:call_1807/data/mock_data.dart';
+import 'package:call_1807/pages/edit/edit_page.dart';
 import 'package:call_1807/pages/items/items_page.dart';
 import 'package:call_1807/services/login_service.dart';
 import 'package:flutter/material.dart';
@@ -45,10 +46,10 @@ class _HomePageState extends State<HomePage> {
               },
             ),
             ListTile(
-              leading: Icon(Icons.accessibility),
-              title: Text('Ação'),
+              leading: Icon(Icons.edit),
+              title: Text('Edição'),
               onTap: () {
-                Navigator.of(context).pop();
+                Navigator.of(context).pushNamed(EditPage.routeName);
               },
             ),
             Divider(),

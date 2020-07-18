@@ -11,6 +11,7 @@ abstract class MockData {
         password: '123456'),
     User(email: 'edson@gmail.com', name: 'Edson Martins', password: '123456'),
     User(email: 'marcelo@gmail.com', name: 'Marcelo ', password: '123456'),
+    User(email: '', name: 'Edson Martins', password: ''),
   ];
 
   static List<Car> cars = [

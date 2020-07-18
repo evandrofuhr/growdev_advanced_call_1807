@@ -1,5 +1,6 @@
 import 'package:call_1807/data/mock_data.dart';
 import 'package:call_1807/pages/detail/detail_page.dart';
+import 'package:call_1807/pages/edit/edit_page.dart';
 import 'package:call_1807/pages/home/home_page.dart';
 import 'package:call_1807/pages/items/items_page.dart';
 import 'package:call_1807/pages/login/login_page.dart';
@@ -33,6 +34,12 @@ class MyApp extends StatelessWidget {
             return LoginPage();
           }
           return ItemsPage();
+        },
+        EditPage.routeName: (context) {
+          if (MockData.logedUser == null) {
+            return LoginPage();
+          }
+          return EditPage();
         },
       },
     );
