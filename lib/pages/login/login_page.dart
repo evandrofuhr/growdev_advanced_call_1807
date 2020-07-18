@@ -1,4 +1,6 @@
-import 'package:call_1807/pages/home_page.dart';
+import 'dart:math';
+
+import 'package:call_1807/pages/home/home_page.dart';
 import 'package:call_1807/services/login_service.dart';
 import 'package:flutter/material.dart';
 
@@ -29,11 +31,11 @@ class _LoginPageState extends State<LoginPage> {
             content: Text(
               'E-mail ou Senha inválidos',
               style: TextStyle(
-                color: Colors.white70,
+                color: Theme.of(context).colorScheme.onError,
               ),
             ),
             behavior: SnackBarBehavior.floating,
-            backgroundColor: Colors.redAccent,
+            backgroundColor: Theme.of(context).colorScheme.error,
           ),
         );
     }
@@ -57,6 +59,14 @@ class _LoginPageState extends State<LoginPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
+              Center(
+                child: FlutterLogo(
+                  size: 150,
+                ),
+              ),
+              SizedBox(
+                height: 8,
+              ),
               TextFormField(
                 decoration: InputDecoration(
                   labelText: 'e-mail',
@@ -74,6 +84,7 @@ class _LoginPageState extends State<LoginPage> {
                   floatingLabelBehavior: FloatingLabelBehavior.never,
                   filled: true,
                 ),
+                obscureText: true,
                 controller: _passwordController,
               ),
               SizedBox(
