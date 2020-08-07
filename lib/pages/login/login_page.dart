@@ -1,4 +1,6 @@
+import 'package:call_1807/models/state.dart';
 import 'package:call_1807/pages/home/home_page.dart';
+import 'package:call_1807/services/app_state_repository.dart';
 import 'package:call_1807/services/login_service.dart';
 import 'package:flutter/material.dart';
 
@@ -14,12 +16,11 @@ class _LoginPageState extends State<LoginPage> {
   final _passwordController = TextEditingController();
 
   void _sigin() async {
-    var _isValid = await _loginService.signIn(
+    var _result = await _loginService.signIn(
       email: _emailController.text,
       password: _passwordController.text,
     );
-
-    if (_isValid) {
+    if (_result.status) {
       Navigator.of(context).pushReplacementNamed(HomePage.routeName);
     } else {
       _key.currentState
@@ -27,7 +28,7 @@ class _LoginPageState extends State<LoginPage> {
         ..showSnackBar(
           SnackBar(
             content: Text(
-              'E-mail ou Senha inválidos',
+              _result.message?.toString() ?? 'Erro indefinido',
               style: TextStyle(
                 color: Theme.of(context).colorScheme.onError,
               ),

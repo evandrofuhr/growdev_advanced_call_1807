@@ -1,4 +1,4 @@
-import 'package:call_1807/data/mock_data.dart';
+import 'package:call_1807/models/user.dart';
 import 'package:call_1807/pages/edit/edit_page.dart';
 import 'package:call_1807/pages/items/items_page.dart';
 import 'package:call_1807/services/login_service.dart';
@@ -13,6 +13,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final _key = GlobalKey<ScaffoldState>();
   final _loginService = LoginService();
+  final _fakeUser = User(email: '<invalid>', name: '<invalid>');
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,11 +26,11 @@ class _HomePageState extends State<HomePage> {
               decoration: BoxDecoration(
                 color: Theme.of(context).primaryColor,
               ),
-              accountEmail: Text(MockData.logedUser?.email ?? ''),
-              accountName: Text(MockData.logedUser?.name ?? ''),
+              accountEmail: Text('-'),
+              accountName: Text('-'),
               currentAccountPicture: CircleAvatar(
                 backgroundImage: NetworkImage(
-                  MockData.logedUser?.avatarUrl ?? '',
+                  _fakeUser?.avatarUrl ?? '',
                 ),
               ),
             ),

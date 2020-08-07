@@ -1,19 +1,6 @@
 import 'package:call_1807/models/car.dart';
-import 'package:call_1807/models/user.dart';
 
 abstract class MockData {
-  static User logedUser;
-
-  static List<User> users = [
-    User(
-        email: 'evandrofuhr@gmail.com',
-        name: 'Evandro Führ',
-        password: '123456'),
-    User(email: 'edson@gmail.com', name: 'Edson Martins', password: '123456'),
-    User(email: 'marcelo@gmail.com', name: 'Marcelo ', password: '123456'),
-    User(email: '', name: 'Edson Martins', password: ''),
-  ];
-
   static List<Car> cars = [
     Car(
       url:
