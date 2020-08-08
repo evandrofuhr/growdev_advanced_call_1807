@@ -1,8 +1,11 @@
+import 'package:call_1807/controllers/auth_controller.dart';
 import 'package:call_1807/models/user.dart';
 import 'package:call_1807/pages/edit/edit_page.dart';
 import 'package:call_1807/pages/items/items_page.dart';
 import 'package:call_1807/services/login_service.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
   static String routeName = '/';
@@ -12,8 +15,14 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final _key = GlobalKey<ScaffoldState>();
-  final _loginService = LoginService();
-  final _fakeUser = User(email: '<invalid>', name: '<invalid>');
+  AuthController _authController;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _authController = Provider.of<AuthController>(context);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,17 +31,25 @@ class _HomePageState extends State<HomePage> {
         child: ListView(
           padding: EdgeInsets.zero,
           children: <Widget>[
-            UserAccountsDrawerHeader(
-              decoration: BoxDecoration(
-                color: Theme.of(context).primaryColor,
-              ),
-              accountEmail: Text('-'),
-              accountName: Text('-'),
-              currentAccountPicture: CircleAvatar(
-                backgroundImage: NetworkImage(
-                  _fakeUser?.avatarUrl ?? '',
-                ),
-              ),
+            Observer(
+              builder: (context) {
+                var _user = User(
+                  email: _authController.appState.email,
+                  name: _authController.appState.email.split('@')[0],
+                );
+                return UserAccountsDrawerHeader(
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).primaryColor,
+                  ),
+                  accountEmail: Text(_user.email),
+                  accountName: Text(_user.name),
+                  currentAccountPicture: CircleAvatar(
+                    backgroundImage: NetworkImage(
+                      _user?.avatarUrl ?? '',
+                    ),
+                  ),
+                );
+              },
             ),
             ListTile(
               leading: Icon(Icons.home),
@@ -57,9 +74,8 @@ class _HomePageState extends State<HomePage> {
             ListTile(
               leading: Icon(Icons.exit_to_app),
               title: Text('sair'),
-              onTap: () async {
-                await _loginService.signOut();
-                Navigator.of(context).pushReplacementNamed(HomePage.routeName);
+              onTap: () {
+                _authController.signOut();
               },
             ),
           ],

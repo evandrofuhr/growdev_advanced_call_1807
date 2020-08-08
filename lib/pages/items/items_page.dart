@@ -1,6 +1,7 @@
-import 'package:call_1807/data/mock_data.dart';
+import 'package:call_1807/models/car.dart';
 import 'package:call_1807/pages/detail/detail_page.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class ItemsPage extends StatefulWidget {
   static String routeName = '/items';
@@ -9,6 +10,14 @@ class ItemsPage extends StatefulWidget {
 }
 
 class _ItemsPageState extends State<ItemsPage> {
+  List<Car> _cars = [];
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _cars = Provider.of<List<Car>>(context);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,12 +34,12 @@ class _ItemsPageState extends State<ItemsPage> {
             mainAxisSpacing: 8,
             childAspectRatio: 16 / 9,
           ),
-          itemCount: MockData.cars.length,
+          itemCount: _cars.length,
           itemBuilder: (context, index) {
             return GestureDetector(
               onTap: () {
-                Navigator.of(context).pushNamed(DetailPage.routeName,
-                    arguments: MockData.cars[index]);
+                Navigator.of(context)
+                    .pushNamed(DetailPage.routeName, arguments: _cars[index]);
               },
               child: Container(
                 decoration: BoxDecoration(
@@ -41,9 +50,9 @@ class _ItemsPageState extends State<ItemsPage> {
                   children: <Widget>[
                     Center(
                       child: Hero(
-                        tag: 'car_${MockData.cars[index].name}',
+                        tag: 'car_${_cars[index].name}',
                         child: FadeInImage(
-                          image: NetworkImage(MockData.cars[index].url),
+                          image: NetworkImage(_cars[index].url),
                           placeholder: AssetImage('assets/loading.gif'),
                         ),
                       ),
@@ -52,7 +61,7 @@ class _ItemsPageState extends State<ItemsPage> {
                       right: 5,
                       top: 5,
                       child: Hero(
-                        tag: 'favorite_${MockData.cars[index].name}',
+                        tag: 'favorite_${_cars[index].name}',
                         child: Icon(
                           Icons.favorite,
                           color: Colors.red,

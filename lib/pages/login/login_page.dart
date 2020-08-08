@@ -1,8 +1,7 @@
-import 'package:call_1807/models/state.dart';
-import 'package:call_1807/pages/home/home_page.dart';
-import 'package:call_1807/services/app_state_repository.dart';
-import 'package:call_1807/services/login_service.dart';
+import 'package:call_1807/controllers/auth_controller.dart';
 import 'package:flutter/material.dart';
+import 'package:mobx/mobx.dart';
+import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -11,39 +10,49 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final _key = GlobalKey<ScaffoldState>();
-  final _loginService = LoginService();
+  AuthController _authController;
+  ReactionDisposer _disposer;
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    _authController = Provider.of<AuthController>(context);
+    _disposer = autorun((_) {
+      if (_authController.loginResult != null &&
+          !_authController.loginResult.status) {
+        _key.currentState
+          ..hideCurrentSnackBar()
+          ..showSnackBar(
+            SnackBar(
+              content: Text(
+                _authController.loginResult.message?.toString() ??
+                    'Erro indefinido',
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.onError,
+                ),
+              ),
+              behavior: SnackBarBehavior.floating,
+              backgroundColor: Theme.of(context).colorScheme.error,
+            ),
+          );
+      }
+    });
+  }
+
   void _sigin() async {
-    var _result = await _loginService.signIn(
+    _authController.signIn(
       email: _emailController.text,
       password: _passwordController.text,
     );
-    if (_result.status) {
-      Navigator.of(context).pushReplacementNamed(HomePage.routeName);
-    } else {
-      _key.currentState
-        ..hideCurrentSnackBar()
-        ..showSnackBar(
-          SnackBar(
-            content: Text(
-              _result.message?.toString() ?? 'Erro indefinido',
-              style: TextStyle(
-                color: Theme.of(context).colorScheme.onError,
-              ),
-            ),
-            behavior: SnackBarBehavior.floating,
-            backgroundColor: Theme.of(context).colorScheme.error,
-          ),
-        );
-    }
   }
 
   @override
   void dispose() {
     _emailController.dispose();
     _passwordController.dispose();
+    _disposer();
     super.dispose();
   }
 
