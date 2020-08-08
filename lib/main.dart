@@ -6,7 +6,6 @@ import 'package:call_1807/pages/home/home_page.dart';
 import 'package:call_1807/pages/items/items_page.dart';
 import 'package:call_1807/pages/login/login_page.dart';
 import 'package:call_1807/services/app_state_repository.dart';
-import 'package:call_1807/services/login_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:provider/provider.dart';
